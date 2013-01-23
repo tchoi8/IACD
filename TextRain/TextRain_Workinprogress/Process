@@ -1,2 +1,3 @@
-An [example] (https://vimeo.com/57981304"NYPL")
-An [example](http://url.com/ "Title")
+ 
+An [video example](https://vimeo.com/57981304 "At NYPL")
+This was very early one. Code has been fixed since then to make letters fall and go up from edge of the screen. 
