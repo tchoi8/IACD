@@ -1,23 +1,16 @@
 PFont f;
-String message = "TYCHOITYCHOITYCHOITYCHOITYCHOITYCHOITYCHOITYCHOIL";
-// An array of Letter objects
- Letter[] letters;
-//char[] letters; 
+String message = "qwertyuiopASDFGHJKLZXCVBNM<L";
+Letter[] letters;
 import processing.video.*;
- 
 int numPixels;
 Capture video;
-
-int m;
-int n;
-int threshold = 95; 
+int m, n;
 int index = 0;
- 
+int threshold = 95; //would like to make threshold controllable,,, or auto detection..? 
 
 void setup() {
-  size(640, 480, P2D); // Change size to 320 x 240 if too slow at 640 x 480
+  size(640, 480, P2D);  
   strokeWeight(5);
-  // Uses the default video input, see the reference if this causes an error
   video = new Capture(this, width, height);
   video.start();  
   numPixels = video.width * video.height;
@@ -25,17 +18,13 @@ void setup() {
   smooth();
   
   f = createFont("Arial",25,true);
-  
   textFont(f);
- 
-   letters = new Letter[message.length()];
- 
-  // Initialize Letters at the correct x location
-  int x = 8;
+  letters = new Letter[message.length()];
+  int x = 8;// Initialize Letters at the correct x location
   for (int i = 0; i < message.length(); i++) {
     letters[i] = new Letter(x,200,message.charAt(i)); 
     x += 30;
-    //x += textWidth(message.charAt(i));
+    //alternatively.. x += textWidth(message.charAt(i));
   }
   
 }
@@ -49,10 +38,9 @@ void draw() {
     video.filter(GRAY);
     image(video, 0, 0);
     video.loadPixels();
-    float pixelBrightness; // Declare variable to store a pixel's color
     
- 
-for (int i = 0; i < letters.length; i++) {
+    float pixelBrightness; // Declare variable to store a pixel's color
+    for (int i = 0; i < letters.length; i++) {
       letters[i].display();
  
      if (mousePressed) {
@@ -65,55 +53,50 @@ for (int i = 0; i < letters.length; i++) {
 
   }
 updatePixels();
- 
   } 
 
 }
 class Letter {
-  char letter;
-  // The object knows its original "home" location
-  float homex,homey;
-  // As well as its current location
-  float x,y;
-
-  Letter (float x_, float y_, char letter_) {
-    homex = x = x_;
-    homey = y = y_;
-    letter = letter_; 
-  }
+      char letter;
+      // The object knows its original "home" location
+      float homex,homey;
+      // As well as its current location
+      float x,y;
+    
+      Letter (float x_, float y_, char letter_) {
+        homex = x = x_;
+        homey = y = y_;
+        letter = letter_; 
+      }
 
   // Display the letter
-  void display() {
+void display() {
     fill(0, 102, 153, 204);
     textAlign(LEFT);
- 
     text(letter,x,y);
    //x+=10;
  }
 
-  // Move the letter randomly
-  void shake() {
-    int m,n;
-    m = int(x);
-    n= int(y);
-    int testValue= get(m,n);
-    float testBrightness = brightness(testValue) ;
-     if (testBrightness > threshold){
-          x += random(-1,1);
-          y += random(5,6);
-          
-   if (y > 400) {
-    y = -height; 
-    index = (index + 1) % letters.length;
-  }
-         } 
+void shake() {
+      int m,n; //whould call again? 
+      m = int(x);
+      n= int(y);
+      int testValue= get(m,n);
+      float testBrightness = brightness(testValue) ;
+       if (testBrightness > threshold){
+            x += random(-1,1);
+            y += random(5,6);
+            
+       if (y > 400) {
+       y = -height; 
+      index = (index + 1) % letters.length;
+    }
+           } 
       else {
           x -= random(-1,1);
           y -= random(5,6);      
       }
-       
-   
-    }
+ }
    
    
 void check(){ 
@@ -124,7 +107,7 @@ void check(){
           index = (index +1)%letters.length;
         fill(323,22,22);
         noStroke();
-        rect(10,30,40,40); 
+        rect(10,30,40,40);  //this is a quirky way to see the state of checking... need to find a better way
         }
       else if (y<30){
            y = 60;
@@ -134,50 +117,17 @@ void check(){
       rect(10,30,40,40);     
       }
 
-else {fill(123,22,22);
-noStroke();
-rect(10,30,40,40);   }
-  
+        else {fill(123,22,22);
+        noStroke();
+        rect(10,30,40,40);   }
+          
 }    
  
-
- void goup() {
+void goup() { //means Go Up! 
     x -= random(-2,2);
     y -= random(10,15);
- 
   }
 
-  // Return the letter home
-  void home() {
-    x = homex;
-    y = homey; 
-  }
-
-
-}
-/*
-  void shake() {
-    int m,n;
-    m = int(x);
-    n= int(y);
-    int testValue= get(m,n);
-    float testBrightness = brightness(testValue) ;
-    
-   float q= textWidth(message);
-      if (y< 20){
-          y = height;
-          index = (index +1)%letters.length;}
-      else if (y>400){
-           y = -height;
-          index = (index +1)%letters.length;}
    
-      else if (testBrightness > threshold){
-          x += random(-1,1);
-          y += random(5,6);} 
-      else {
-          x -= random(-1,1);
-          y -= random(5,6);      
-    }  
 
-    } 
-    */
+} 
